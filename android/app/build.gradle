@@ -80,6 +80,7 @@ android {
     namespace "com.supersetlist"
     defaultConfig {
         applicationId "com.supersetlist"
+        manifestPlaceholders = [appAuthRedirectScheme: "com.supersetlist"]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
