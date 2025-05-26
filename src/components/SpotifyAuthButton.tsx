@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Pressable, StyleSheet, Text} from 'react-native';
 import {handleSpotifyAuth} from '../services/authService';
 import {SpotifyAuthButtonProps} from '../types/SpotifyAuthButtonProps';
 
@@ -15,17 +15,21 @@ export default function SpotifyAuthButton({
     }
   };
   return (
-    <TouchableOpacity onPress={updateSpotifyAuth} style={styles.loginButton}>
-      <Text style={{color: 'white', fontWeight: 'bold'}}>
-        {spotifyAuth ? 'Disconnect from Spotify' : 'Connect to Spotify'}
+    <Pressable onPress={updateSpotifyAuth} style={styles.loginButton}>
+      <Text style={{color: 'black', fontWeight: 'bold'}}>
+        {spotifyAuth ? 'Logout From Spotify' : 'Connect to Spotify Account'}
       </Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   loginButton: {
-    backgroundColor: '#1ED760', // Spotify green color
+    alignSelf: 'center',
     alignItems: 'center',
+    backgroundColor: '#1ED760', // Spotify green color
+    padding: 10,
+    borderRadius: 8,
+    width: '95%',
   },
 });
