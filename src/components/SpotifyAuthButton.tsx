@@ -1,23 +1,16 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
-import {handleSpotifyAuth} from '../services/authService';
-import {SpotifyAuthButtonProps} from '../types/SpotifyAuthButtonProps';
+import {useAuth} from '../contexts/AuthContext';
 
-export default function SpotifyAuthButton({
-  spotifyAuth,
-  setSpotifyAuth,
-}: SpotifyAuthButtonProps) {
-  const updateSpotifyAuth = async () => {
-    if (spotifyAuth) {
-      setSpotifyAuth(null);
-    } else {
-      const authData = await handleSpotifyAuth();
-      setSpotifyAuth(authData);
-    }
+export default function SpotifyAuthButton() {
+  const {login, logout, isAuthenticated} = useAuth();
+
+  const handleOnPress = () => {
+    isAuthenticated ? logout() : login();
   };
   return (
-    <Pressable onPress={updateSpotifyAuth} style={styles.loginButton}>
+    <Pressable onPress={handleOnPress} style={styles.loginButton}>
       <Text style={{color: 'black', fontWeight: 'bold'}}>
-        {spotifyAuth ? 'Logout From Spotify' : 'Connect to Spotify Account'}
+        {isAuthenticated ? 'Logout From Spotify' : 'Connect to Spotify Account'}
       </Text>
     </Pressable>
   );

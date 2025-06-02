@@ -1,37 +1,34 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import SpotifyAuthButton from './components/SpotifyAuthButton';
-import {SpotifyAuth} from './types/SpotifyAuth';
+import {useAuth} from './contexts/AuthContext';
 import {SpotifyPlaylist} from './types/SpotifyPlaylist';
 import {getPlaylists} from './services/playlistService';
 import Playlist from './components/SpotifyPlaylist';
 
 function App(): React.JSX.Element {
-  const [spotifyAuth, setSpotifyAuth] = useState<SpotifyAuth | null>(null);
+  const {auth, isAuthenticated} = useAuth();
   const [playlists, setPlaylists] = useState<SpotifyPlaylist[] | null>(null);
 
   useEffect(() => {
     const fetchPlaylists = async () => {
-      if (!spotifyAuth?.accessToken) {
+      if (!isAuthenticated) {
         return;
       }
-      const data = await getPlaylists(spotifyAuth.accessToken);
+      const data = await getPlaylists(auth!.accessToken);
       setPlaylists(data);
     };
-    if (spotifyAuth?.accessToken) {
+    if (isAuthenticated) {
       fetchPlaylists();
     } else {
       setPlaylists(null);
     }
-  }, [spotifyAuth]);
+  }, [auth, isAuthenticated]);
 
   return (
     <>
       <Text style={styles.title}>SuperSetList</Text>
-      <SpotifyAuthButton
-        spotifyAuth={spotifyAuth}
-        setSpotifyAuth={setSpotifyAuth}
-      />
+      <SpotifyAuthButton />
       {playlists &&
         playlists.map((playlist, playlistIdx) => {
           return (
