@@ -1,7 +1,7 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
 import {useAuth} from '../contexts/AuthContext';
 
-export default function SpotifyAuthButton() {
+export default function AuthButton() {
   const {login, logout, isAuthenticated} = useAuth();
 
   const handleOnPress = () => {

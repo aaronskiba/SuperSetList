@@ -1,5 +1,5 @@
 import {StyleSheet, Text} from 'react-native';
-import SpotifyAuthButton from './components/SpotifyAuthButton';
+import AuthButton from './components/AuthButton';
 import {useAuth} from './contexts/AuthContext';
 import PlaylistList from './components/PlaylistList';
 
@@ -9,7 +9,7 @@ function App(): React.JSX.Element {
   return (
     <>
       <Text style={styles.title}>SuperSetList</Text>
-      <SpotifyAuthButton />
+      <AuthButton />
       {isAuthenticated && <PlaylistList />}
     </>
   );
