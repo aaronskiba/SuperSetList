@@ -6,22 +6,20 @@ import {useAuth} from '../contexts/AuthContext';
 
 export default function PlaylistList() {
   const [playlists, setPlaylists] = useState<SpotifyPlaylist[] | null>(null);
-  const {auth, isAuthenticated} = useAuth();
+  const {auth} = useAuth();
+  const accessToken = auth?.accessToken;
 
   useEffect(() => {
     const fetchPlaylists = async () => {
-      if (!isAuthenticated) {
+      if (!accessToken) {
+        setPlaylists(null);
         return;
       }
-      const data = await getPlaylists(auth!.accessToken);
+      const data = await getPlaylists(accessToken);
       setPlaylists(data);
     };
-    if (isAuthenticated) {
-      fetchPlaylists();
-    } else {
-      setPlaylists(null);
-    }
-  }, [auth, isAuthenticated]);
+    fetchPlaylists();
+  }, [accessToken]);
 
   return (
     <>
