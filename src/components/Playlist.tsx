@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {SpotifyPlaylistProps} from '../types/SpotifyPlaylistProps';
 
-export default function PlaylistItem({spotifyPlaylist}: SpotifyPlaylistProps) {
+export default function Playlist({spotifyPlaylist}: SpotifyPlaylistProps) {
   return (
     <View style={styles.container}>
       <Image
