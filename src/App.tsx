@@ -1,7 +1,7 @@
 import {StyleSheet, Text} from 'react-native';
 import AuthButton from './components/AuthButton';
 import {useAuth} from './contexts/AuthContext';
-import PlaylistList from './components/PlaylistList';
+import Playlists from './components/Playlists';
 
 function App(): React.JSX.Element {
   const isAuthenticated = useAuth();
@@ -10,7 +10,7 @@ function App(): React.JSX.Element {
     <>
       <Text style={styles.title}>SuperSetList</Text>
       <AuthButton />
-      {isAuthenticated && <PlaylistList />}
+      {isAuthenticated && <Playlists />}
     </>
   );
 }

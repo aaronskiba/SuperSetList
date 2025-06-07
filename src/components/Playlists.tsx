@@ -4,7 +4,7 @@ import {getPlaylists} from '../services/playlistService';
 import PlaylistItem from './PlaylistItem';
 import {useAuth} from '../contexts/AuthContext';
 
-export default function PlaylistList() {
+export default function Playlists() {
   const [playlists, setPlaylists] = useState<SpotifyPlaylist[] | null>(null);
   const {auth} = useAuth();
   const accessToken = auth?.accessToken;
