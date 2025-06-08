@@ -1,18 +1,29 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {SpotifyPlaylistProps} from '../types/SpotifyPlaylistProps';
 
-export default function Playlist({spotifyPlaylist}: SpotifyPlaylistProps) {
+export default function Playlist({
+  spotifyPlaylist,
+  selectPlaylist,
+}: SpotifyPlaylistProps) {
   return (
-    <View style={styles.container}>
-      <Image
-        source={{uri: spotifyPlaylist.images[0]?.url}}
-        style={{width: 100, height: 100}}
-      />
-      <View style={styles.textContainer}>
-        <Text style={styles.name}>{spotifyPlaylist.name}</Text>
-        <Text style={styles.description}>{spotifyPlaylist.description}</Text>
+    <Pressable
+      onPress={() => selectPlaylist(spotifyPlaylist)}
+      style={({pressed}) => [
+        {
+          backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+        },
+      ]}>
+      <View style={styles.container}>
+        <Image
+          source={{uri: spotifyPlaylist.images[0]?.url}}
+          style={{width: 100, height: 100}}
+        />
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>{spotifyPlaylist.name}</Text>
+          <Text style={styles.description}>{spotifyPlaylist.description}</Text>
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
