@@ -1,16 +1,16 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {SpotifyPlaylistProps} from '../types/SpotifyPlaylistProps';
+import {SpotifyTrackProps} from '../types/SpotifyPlaylistProps';
 
-export default function PlaylistItem({spotifyPlaylist}: SpotifyPlaylistProps) {
+export default function Track({spotifyTrack}: SpotifyTrackProps) {
   return (
     <View style={styles.container}>
       <Image
-        source={{uri: spotifyPlaylist.images[0]?.url}}
+        source={{uri: spotifyTrack.album.images[0]?.url}}
         style={{width: 100, height: 100}}
       />
       <View style={styles.textContainer}>
-        <Text style={styles.name}>{spotifyPlaylist.name}</Text>
-        <Text style={styles.description}>{spotifyPlaylist.description}</Text>
+        <Text style={styles.name}>{spotifyTrack.name}</Text>
+        <Text style={styles.description}>{spotifyTrack.artists[0].name}</Text>
       </View>
     </View>
   );
