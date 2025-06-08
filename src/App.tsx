@@ -10,18 +10,22 @@ function App(): React.JSX.Element {
   const isAuthenticated = useAuth();
   const [playlist, setPlaylist] = useState<SpotifyPlaylist | null>(null);
 
+  const renderConditionalContent = () => {
+    if (!isAuthenticated) return null;
+    return playlist ? (
+      <SpotifyTracks
+        spotifyPlaylist={playlist}
+        unselectPlaylist={() => setPlaylist(null)}
+      />
+    ) : (
+      <Playlists selectPlaylist={(p: SpotifyPlaylist) => setPlaylist(p)} />
+    );
+  };
+
   return (
     <>
       <Text style={styles.title}>SuperSetList</Text>
-      {isAuthenticated &&
-        (playlist ? (
-          <SpotifyTracks
-            spotifyPlaylist={playlist}
-            unselectPlaylist={() => setPlaylist(null)}
-          />
-        ) : (
-          <Playlists selectPlaylist={(p: SpotifyPlaylist) => setPlaylist(p)} />
-        ))}
+      {renderConditionalContent()}
       <AuthButton />
     </>
   );
