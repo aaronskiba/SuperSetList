@@ -80,6 +80,7 @@ android {
     namespace "com.supersetlist"
     defaultConfig {
         applicationId "com.supersetlist"
+        // Required for Spotify OAuth redirect (see src/config/spotifyAuthConfig.ts)
         manifestPlaceholders = [appAuthRedirectScheme: "com.supersetlist"]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
