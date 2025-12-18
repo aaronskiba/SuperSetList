@@ -6,7 +6,7 @@ import {getPlaylistTracks} from '../services/trackService';
 import {useAuth} from '../contexts/AuthContext';
 import BackButton from './BackButton';
 
-export default function SpotifyTracks({
+export default function Tracks({
   spotifyPlaylist,
   unselectPlaylist,
 }: SpotifyTracksProps) {
