@@ -1,4 +1,5 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {PLAYLIST_BG} from '../theme/colors';
 import {SpotifyPlaylistProps} from '../types/SpotifyPlaylistProps';
 
 export default function Playlist({
@@ -8,8 +9,8 @@ export default function Playlist({
   focusPlaylist,
 }: SpotifyPlaylistProps) {
   const getBackgroundColor = (pressed: boolean) => {
-    if (pressed) return 'rgb(210, 230, 255)';
-    return isSelected ? '#1ED760' : 'white';
+    if (pressed) return PLAYLIST_BG.pressed;
+    return isSelected ? PLAYLIST_BG.selected : PLAYLIST_BG.default;
   };
   return (
     <Pressable

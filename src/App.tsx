@@ -57,10 +57,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  loginButton: {
-    backgroundColor: '#1ED760', // Spotify green color
-    alignItems: 'center',
-  },
 });
 
 export default App;

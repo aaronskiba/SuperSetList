@@ -1,4 +1,5 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
+import {SPOTIFY_GREEN} from '../theme/colors';
 import {useAuth} from '../contexts/AuthContext';
 
 export default function AuthButton() {
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
   loginButton: {
     alignSelf: 'center',
     alignItems: 'center',
-    backgroundColor: '#1ED760', // Spotify green color
+    backgroundColor: SPOTIFY_GREEN,
     padding: 10,
     borderRadius: 8,
     width: '95%',
