@@ -14,6 +14,11 @@ function App(): React.JSX.Element {
   const [focusedPlaylist, setFocusedPlaylist] =
     useState<SpotifyPlaylist | null>(null);
 
+  const clearAllPlaylists = () => {
+    setSelectedPlaylists([]);
+    setFocusedPlaylist(null);
+  };
+
   const updateSelectedPlaylists = (playlist: SpotifyPlaylist) => {
     setSelectedPlaylists(prev => {
       // if a previously selected playlist is being unselected
@@ -45,7 +50,7 @@ function App(): React.JSX.Element {
     <>
       <Text style={styles.title}>SuperSetList</Text>
       {isAuthenticated && tracksOrPlaylists()}
-      <AuthButton />
+      <AuthButton clearAllPlaylists={clearAllPlaylists} />
     </>
   );
 }

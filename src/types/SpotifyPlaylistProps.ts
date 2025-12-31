@@ -14,10 +14,6 @@ export type SpotifyPlaylistProps = SpotifyPlaylistActions & {
   isSelected: boolean;
 };
 
-export type BackButtonProps = {
-  unfocusPlaylist: () => void;
-};
-
 export type SpotifyTracksProps = {
   spotifyPlaylist: SpotifyPlaylist;
   unfocusPlaylist: () => void;
@@ -25,4 +21,12 @@ export type SpotifyTracksProps = {
 
 export type SpotifyTrackProps = {
   spotifyTrack: SpotifyTrack;
+};
+
+export type AuthButtonProps = {
+  clearAllPlaylists: () => void;
+};
+
+export type BackButtonProps = {
+  unfocusPlaylist: () => void;
 };
