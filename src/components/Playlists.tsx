@@ -5,7 +5,11 @@ import {getPlaylists} from '../services/playlistService';
 import Playlist from './Playlist';
 import {useAuth} from '../contexts/AuthContext';
 
-export default function Playlists({selectPlaylist}: SpotifyPlaylistsProps) {
+export default function Playlists({
+  selectedPlaylists,
+  updateSelectedPlaylists,
+  focusPlaylist,
+}: SpotifyPlaylistsProps) {
   const [playlists, setPlaylists] = useState<SpotifyPlaylist[] | null>(null);
   const {auth} = useAuth();
   const accessToken = auth?.accessToken;
@@ -30,7 +34,9 @@ export default function Playlists({selectPlaylist}: SpotifyPlaylistsProps) {
             <Playlist
               key={playlist.id}
               spotifyPlaylist={playlist}
-              selectPlaylist={selectPlaylist}
+              isSelected={!!selectedPlaylists.some(p => p.id === playlist.id)}
+              updateSelectedPlaylists={updateSelectedPlaylists}
+              focusPlaylist={focusPlaylist}
             />
           );
         })}

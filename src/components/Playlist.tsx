@@ -3,14 +3,21 @@ import {SpotifyPlaylistProps} from '../types/SpotifyPlaylistProps';
 
 export default function Playlist({
   spotifyPlaylist,
-  selectPlaylist,
+  isSelected,
+  updateSelectedPlaylists,
+  focusPlaylist,
 }: SpotifyPlaylistProps) {
+  const getBackgroundColor = (pressed: boolean) => {
+    if (pressed) return 'rgb(210, 230, 255)';
+    return isSelected ? '#1ED760' : 'white';
+  };
   return (
     <Pressable
-      onPress={() => selectPlaylist(spotifyPlaylist)}
+      onPress={() => updateSelectedPlaylists(spotifyPlaylist)}
+      onLongPress={() => focusPlaylist(spotifyPlaylist)}
       style={({pressed}) => [
         {
-          backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+          backgroundColor: getBackgroundColor(pressed),
         },
       ]}>
       <View style={styles.container}>

@@ -8,17 +8,36 @@ import Tracks from './components/Tracks';
 
 function App(): React.JSX.Element {
   const isAuthenticated = useAuth();
-  const [playlist, setPlaylist] = useState<SpotifyPlaylist | null>(null);
+  const [selectedPlaylists, setSelectedPlaylists] = useState<SpotifyPlaylist[]>(
+    [],
+  );
+  const [focusedPlaylist, setFocusedPlaylist] =
+    useState<SpotifyPlaylist | null>(null);
+
+  const updateSelectedPlaylists = (playlist: SpotifyPlaylist) => {
+    setSelectedPlaylists(prev => {
+      // if a previously selected playlist is being unselected
+      if (prev.some(p => p.id === playlist.id))
+        return prev.filter(p => p.id !== playlist.id);
+      // Don't allow for more than two selectedPlaylists
+      if (prev.length >= 2) return prev;
+      return [...prev, playlist];
+    });
+  };
 
   const tracksOrPlaylists = () => {
-    // If a playlist is selected, return <Tracks>; otherwise, return <Playlists>
-    return playlist ? (
+    // If a playlist is "focused", return <Tracks>; otherwise, return <Playlists>
+    return focusedPlaylist ? (
       <Tracks
-        spotifyPlaylist={playlist}
-        unselectPlaylist={() => setPlaylist(null)}
+        spotifyPlaylist={focusedPlaylist}
+        unfocusPlaylist={() => setFocusedPlaylist(null)}
       />
     ) : (
-      <Playlists selectPlaylist={(p: SpotifyPlaylist) => setPlaylist(p)} />
+      <Playlists
+        selectedPlaylists={selectedPlaylists}
+        updateSelectedPlaylists={updateSelectedPlaylists}
+        focusPlaylist={p => setFocusedPlaylist(p)}
+      />
     );
   };
 

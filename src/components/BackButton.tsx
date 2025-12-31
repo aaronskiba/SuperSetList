@@ -1,9 +1,9 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
 import {BackButtonProps} from '../types/SpotifyPlaylistProps';
 
-export default function BackButton({unselectPlaylist}: BackButtonProps) {
+export default function BackButton({unfocusPlaylist}: BackButtonProps) {
   return (
-    <Pressable onPress={unselectPlaylist} style={styles.loginButton}>
+    <Pressable onPress={unfocusPlaylist} style={styles.loginButton}>
       <Text style={{color: 'black', fontWeight: 'bold'}}>
         {'Return to Playlists'}
       </Text>

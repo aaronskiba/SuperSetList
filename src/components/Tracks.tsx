@@ -8,7 +8,7 @@ import BackButton from './BackButton';
 
 export default function Tracks({
   spotifyPlaylist,
-  unselectPlaylist,
+  unfocusPlaylist,
 }: SpotifyTracksProps) {
   const [tracks, setTracks] = useState<SpotifyTrack[] | null>(null);
   const {auth} = useAuth();
@@ -27,7 +27,7 @@ export default function Tracks({
 
   return (
     <>
-      <BackButton unselectPlaylist={unselectPlaylist} />
+      <BackButton unfocusPlaylist={unfocusPlaylist} />
       {tracks &&
         tracks.map(track => {
           return <Track key={track.id} spotifyTrack={track} />;
