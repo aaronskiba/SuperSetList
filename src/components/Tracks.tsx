@@ -5,6 +5,7 @@ import {SpotifyTracksProps} from '../types/SpotifyPlaylistProps';
 import {getPlaylistTracks} from '../services/trackService';
 import {useAuth} from '../contexts/AuthContext';
 import BackButton from './BackButton';
+import ListHeader from './ListHeader';
 
 export default function Tracks({
   spotifyPlaylist,
@@ -27,6 +28,7 @@ export default function Tracks({
 
   return (
     <>
+      <ListHeader spotifyPlaylist={spotifyPlaylist} />
       <BackButton unfocusPlaylist={unfocusPlaylist} />
       {tracks &&
         tracks.map(track => {

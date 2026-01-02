@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import {StyleSheet, Text} from 'react-native';
 import AuthButton from './components/AuthButton';
 import {useAuth} from './contexts/AuthContext';
 import {SpotifyPlaylist} from './types/SpotifyPlaylist';
@@ -48,22 +47,10 @@ function App(): React.JSX.Element {
 
   return (
     <>
-      <Text style={styles.title}>
-        {focusedPlaylist ? `${focusedPlaylist.name} Tracks` : 'All Playlists'}
-      </Text>
       {isAuthenticated && tracksOrPlaylists()}
       <AuthButton clearAllPlaylists={clearAllPlaylists} />
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-});
 
 export default App;

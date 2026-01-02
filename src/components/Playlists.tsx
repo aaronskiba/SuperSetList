@@ -3,6 +3,7 @@ import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
 import {SpotifyPlaylistsProps} from '../types/SpotifyPlaylistProps';
 import {getPlaylists} from '../services/playlistService';
 import Playlist from './Playlist';
+import ListHeader from './ListHeader';
 import {useAuth} from '../contexts/AuthContext';
 
 export default function Playlists({
@@ -28,6 +29,7 @@ export default function Playlists({
 
   return (
     <>
+      <ListHeader />
       {playlists &&
         playlists.map(playlist => {
           return (

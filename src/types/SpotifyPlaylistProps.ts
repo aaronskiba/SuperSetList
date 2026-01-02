@@ -30,3 +30,7 @@ export type AuthButtonProps = {
 export type BackButtonProps = {
   unfocusPlaylist: () => void;
 };
+
+export type ListHeaderProps = {
+  spotifyPlaylist?: SpotifyPlaylist;
+};
