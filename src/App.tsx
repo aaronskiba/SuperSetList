@@ -48,7 +48,9 @@ function App(): React.JSX.Element {
 
   return (
     <>
-      <Text style={styles.title}>SuperSetList</Text>
+      <Text style={styles.title}>
+        {focusedPlaylist ? `${focusedPlaylist.name} Tracks` : 'All Playlists'}
+      </Text>
       {isAuthenticated && tracksOrPlaylists()}
       <AuthButton clearAllPlaylists={clearAllPlaylists} />
     </>
