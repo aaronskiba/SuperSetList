@@ -4,6 +4,8 @@ import {useAuth} from './contexts/AuthContext';
 import {SpotifyPlaylist} from './types/SpotifyPlaylist';
 import Playlists from './components/Playlists';
 import Tracks from './components/Tracks';
+import TracksComparison from './components/TracksComparison';
+import BackButton from './components/BackButton';
 
 function App(): React.JSX.Element {
   const isAuthenticated = useAuth();
@@ -29,14 +31,24 @@ function App(): React.JSX.Element {
     });
   };
 
-  const tracksOrPlaylists = () => {
-    // If a playlist is "focused", return <Tracks>; otherwise, return <Playlists>
-    return focusedPlaylist ? (
-      <Tracks
-        spotifyPlaylist={focusedPlaylist}
-        unfocusPlaylist={() => setFocusedPlaylist(null)}
-      />
-    ) : (
+  const renderScreen = () => {
+    if (focusedPlaylist) {
+      return (
+        <>
+          <BackButton clearAllPlaylists={clearAllPlaylists} />
+          <Tracks spotifyPlaylist={focusedPlaylist} />
+        </>
+      );
+    }
+    if (selectedPlaylists.length === 2) {
+      return (
+        <>
+          <BackButton clearAllPlaylists={clearAllPlaylists} />
+          <TracksComparison selectedPlaylists={selectedPlaylists} />
+        </>
+      );
+    }
+    return (
       <Playlists
         selectedPlaylists={selectedPlaylists}
         updateSelectedPlaylists={updateSelectedPlaylists}
@@ -47,7 +59,7 @@ function App(): React.JSX.Element {
 
   return (
     <>
-      {isAuthenticated && tracksOrPlaylists()}
+      {isAuthenticated && renderScreen()}
       <AuthButton clearAllPlaylists={clearAllPlaylists} />
     </>
   );

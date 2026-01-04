@@ -16,7 +16,10 @@ export type SpotifyPlaylistProps = SpotifyPlaylistActions & {
 
 export type SpotifyTracksProps = {
   spotifyPlaylist: SpotifyPlaylist;
-  unfocusPlaylist: () => void;
+};
+
+export type SpotifyTracksComparisonProps = {
+  selectedPlaylists: SpotifyPlaylist[];
 };
 
 export type SpotifyTrackProps = {
@@ -28,7 +31,7 @@ export type AuthButtonProps = {
 };
 
 export type BackButtonProps = {
-  unfocusPlaylist: () => void;
+  clearAllPlaylists: () => void;
 };
 
 export type ListHeaderProps = {

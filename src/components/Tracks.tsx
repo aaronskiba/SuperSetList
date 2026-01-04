@@ -4,13 +4,10 @@ import Track from './Track';
 import {SpotifyTracksProps} from '../types/SpotifyPlaylistProps';
 import {getPlaylistTracks} from '../services/trackService';
 import {useAuth} from '../contexts/AuthContext';
-import BackButton from './BackButton';
 import ListHeader from './ListHeader';
+import {View, StyleSheet} from 'react-native';
 
-export default function Tracks({
-  spotifyPlaylist,
-  unfocusPlaylist,
-}: SpotifyTracksProps) {
+export default function Tracks({spotifyPlaylist}: SpotifyTracksProps) {
   const [tracks, setTracks] = useState<SpotifyTrack[] | null>(null);
   const {auth} = useAuth();
   const accessToken = auth?.accessToken;
@@ -27,13 +24,18 @@ export default function Tracks({
   }, [accessToken]);
 
   return (
-    <>
+    <View style={styles.column}>
       <ListHeader spotifyPlaylist={spotifyPlaylist} />
-      <BackButton unfocusPlaylist={unfocusPlaylist} />
       {tracks &&
         tracks.map(track => {
           return <Track key={track.id} spotifyTrack={track} />;
         })}
-    </>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  column: {
+    flex: 1,
+  },
+});
