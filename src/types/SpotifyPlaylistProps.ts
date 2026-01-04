@@ -30,7 +30,7 @@ export type AuthButtonProps = {
   clearAllPlaylists: () => void;
 };
 
-export type BackButtonProps = {
+export type BackToPlaylistsButtonProps = {
   clearAllPlaylists: () => void;
 };
 

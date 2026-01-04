@@ -1,8 +1,10 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
 import {SPOTIFY_GREEN} from '../theme/colors';
-import {BackButtonProps} from '../types/SpotifyPlaylistProps';
+import {BackToPlaylistsButtonProps} from '../types/SpotifyPlaylistProps';
 
-export default function BackButton({clearAllPlaylists}: BackButtonProps) {
+export default function BackToPlaylistsButton({
+  clearAllPlaylists,
+}: BackToPlaylistsButtonProps) {
   return (
     <Pressable onPress={clearAllPlaylists} style={styles.loginButton}>
       <Text style={{color: 'black', fontWeight: 'bold'}}>

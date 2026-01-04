@@ -1,19 +1,32 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import AuthButton from './components/AuthButton';
 import {useAuth} from './contexts/AuthContext';
 import {SpotifyPlaylist} from './types/SpotifyPlaylist';
 import Playlists from './components/Playlists';
 import Tracks from './components/Tracks';
 import TracksComparison from './components/TracksComparison';
-import BackButton from './components/BackButton';
+import BackToPlaylistsButton from './components/BackToPlaylistsButton';
+
+type Screen = 'playlists' | 'tracks' | 'compare';
 
 function App(): React.JSX.Element {
   const isAuthenticated = useAuth();
+  const [screen, setScreen] = useState<Screen>('playlists');
   const [selectedPlaylists, setSelectedPlaylists] = useState<SpotifyPlaylist[]>(
     [],
   );
   const [focusedPlaylist, setFocusedPlaylist] =
     useState<SpotifyPlaylist | null>(null);
+
+  useEffect(() => {
+    if (focusedPlaylist) {
+      setScreen('tracks');
+    } else if (selectedPlaylists.length === 2) {
+      setScreen('compare');
+    } else {
+      setScreen('playlists');
+    }
+  }, [focusedPlaylist, selectedPlaylists]);
 
   const clearAllPlaylists = () => {
     setSelectedPlaylists([]);
@@ -32,33 +45,28 @@ function App(): React.JSX.Element {
   };
 
   const renderScreen = () => {
-    if (focusedPlaylist) {
-      return (
-        <>
-          <BackButton clearAllPlaylists={clearAllPlaylists} />
-          <Tracks spotifyPlaylist={focusedPlaylist} />
-        </>
-      );
+    switch (screen) {
+      case 'tracks':
+        return <Tracks spotifyPlaylist={focusedPlaylist!} />;
+      case 'compare':
+        return <TracksComparison selectedPlaylists={selectedPlaylists} />;
+      case 'playlists':
+      default:
+        return (
+          <Playlists
+            selectedPlaylists={selectedPlaylists}
+            updateSelectedPlaylists={updateSelectedPlaylists}
+            focusPlaylist={p => setFocusedPlaylist(p)}
+          />
+        );
     }
-    if (selectedPlaylists.length === 2) {
-      return (
-        <>
-          <BackButton clearAllPlaylists={clearAllPlaylists} />
-          <TracksComparison selectedPlaylists={selectedPlaylists} />
-        </>
-      );
-    }
-    return (
-      <Playlists
-        selectedPlaylists={selectedPlaylists}
-        updateSelectedPlaylists={updateSelectedPlaylists}
-        focusPlaylist={p => setFocusedPlaylist(p)}
-      />
-    );
   };
 
   return (
     <>
+      {isAuthenticated && screen !== 'playlists' && (
+        <BackToPlaylistsButton clearAllPlaylists={clearAllPlaylists} />
+      )}
       {isAuthenticated && renderScreen()}
       <AuthButton clearAllPlaylists={clearAllPlaylists} />
     </>
