@@ -16,5 +16,6 @@ export default function TracksComparison({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    flex: 1,
   },
 });

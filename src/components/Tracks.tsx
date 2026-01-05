@@ -5,7 +5,7 @@ import {SpotifyTracksProps} from '../types/SpotifyPlaylistProps';
 import {getPlaylistTracks} from '../services/trackService';
 import {useAuth} from '../contexts/AuthContext';
 import ListHeader from './ListHeader';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 
 export default function Tracks({spotifyPlaylist}: SpotifyTracksProps) {
   const [tracks, setTracks] = useState<SpotifyTrack[] | null>(null);
@@ -26,10 +26,11 @@ export default function Tracks({spotifyPlaylist}: SpotifyTracksProps) {
   return (
     <View style={styles.column}>
       <ListHeader spotifyPlaylist={spotifyPlaylist} />
-      {tracks &&
-        tracks.map(track => {
-          return <Track key={track.id} spotifyTrack={track} />;
-        })}
+      <FlatList
+        data={tracks}
+        renderItem={({item}) => <Track spotifyTrack={item} />}
+        keyExtractor={item => item.id}
+      />
     </View>
   );
 }

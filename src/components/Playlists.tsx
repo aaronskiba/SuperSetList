@@ -5,6 +5,7 @@ import {getPlaylists} from '../services/playlistService';
 import Playlist from './Playlist';
 import ListHeader from './ListHeader';
 import {useAuth} from '../contexts/AuthContext';
+import {FlatList} from 'react-native';
 
 export default function Playlists({
   selectedPlaylists,
@@ -30,18 +31,18 @@ export default function Playlists({
   return (
     <>
       <ListHeader />
-      {playlists &&
-        playlists.map(playlist => {
-          return (
-            <Playlist
-              key={playlist.id}
-              spotifyPlaylist={playlist}
-              isSelected={!!selectedPlaylists.some(p => p.id === playlist.id)}
-              updateSelectedPlaylists={updateSelectedPlaylists}
-              focusPlaylist={focusPlaylist}
-            />
-          );
-        })}
+      <FlatList
+        data={playlists}
+        renderItem={({item}) => (
+          <Playlist
+            spotifyPlaylist={item}
+            isSelected={!!selectedPlaylists.some(p => p.id === item.id)}
+            updateSelectedPlaylists={updateSelectedPlaylists}
+            focusPlaylist={focusPlaylist}
+          />
+        )}
+        keyExtractor={item => item.id}
+      />
     </>
   );
 }
