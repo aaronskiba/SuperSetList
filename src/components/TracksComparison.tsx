@@ -7,8 +7,8 @@ export default function TracksComparison({
 }: SpotifyTracksComparisonProps) {
   return (
     <View style={styles.container}>
-      <Tracks spotifyPlaylist={selectedPlaylists[0]} />
-      <Tracks spotifyPlaylist={selectedPlaylists[1]} />
+      <Tracks spotifyPlaylist={selectedPlaylists[0]} size={'small'} />
+      <Tracks spotifyPlaylist={selectedPlaylists[1]} size={'small'} />
     </View>
   );
 }

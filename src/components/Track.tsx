@@ -1,12 +1,21 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {SpotifyTrackProps} from '../types/SpotifyPlaylistProps';
 
-export default function Track({spotifyTrack}: SpotifyTrackProps) {
+const IMAGE_SIZE_MAP = {
+  small: 65,
+  large: 100,
+};
+
+export default function Track({
+  spotifyTrack,
+  size = 'large',
+}: SpotifyTrackProps) {
+  const imageSize = IMAGE_SIZE_MAP[size];
   return (
     <View style={styles.container}>
       <Image
         source={{uri: spotifyTrack.album.images[0]?.url}}
-        style={{width: 100, height: 100}}
+        style={{width: imageSize, height: imageSize}}
       />
       <View style={styles.textContainer}>
         <Text style={styles.name}>{spotifyTrack.name}</Text>

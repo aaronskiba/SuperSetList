@@ -7,7 +7,10 @@ import {useAuth} from '../contexts/AuthContext';
 import ListHeader from './ListHeader';
 import {View, StyleSheet, FlatList} from 'react-native';
 
-export default function Tracks({spotifyPlaylist}: SpotifyTracksProps) {
+export default function Tracks({
+  spotifyPlaylist,
+  size = 'large',
+}: SpotifyTracksProps) {
   const [tracks, setTracks] = useState<SpotifyTrack[] | null>(null);
   const {auth} = useAuth();
   const accessToken = auth?.accessToken;
@@ -28,7 +31,7 @@ export default function Tracks({spotifyPlaylist}: SpotifyTracksProps) {
       <ListHeader spotifyPlaylist={spotifyPlaylist} />
       <FlatList
         data={tracks}
-        renderItem={({item}) => <Track spotifyTrack={item} />}
+        renderItem={({item}) => <Track spotifyTrack={item} size={size} />}
         keyExtractor={item => item.id}
       />
     </View>

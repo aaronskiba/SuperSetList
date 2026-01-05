@@ -16,6 +16,7 @@ export type SpotifyPlaylistProps = SpotifyPlaylistActions & {
 
 export type SpotifyTracksProps = {
   spotifyPlaylist: SpotifyPlaylist;
+  size?: 'small' | 'large';
 };
 
 export type SpotifyTracksComparisonProps = {
@@ -24,6 +25,7 @@ export type SpotifyTracksComparisonProps = {
 
 export type SpotifyTrackProps = {
   spotifyTrack: SpotifyTrack;
+  size?: 'small' | 'large';
 };
 
 export type AuthButtonProps = {
