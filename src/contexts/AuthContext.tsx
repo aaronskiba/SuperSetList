@@ -1,4 +1,4 @@
-import {createContext, useContext, useState, ReactNode, FC} from 'react';
+import {createContext, useContext, useState, ReactNode} from 'react';
 import {SpotifyAuth} from '../types/SpotifyAuth';
 import {handleSpotifyAuth} from '../services/authService';
 
@@ -15,7 +15,7 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: FC<AuthProviderProps> = ({children}) => {
+export const AuthProvider = ({children}: AuthProviderProps) => {
   const [auth, setAuth] = useState<SpotifyAuth | null>(null);
 
   const login = async () => {

@@ -4,16 +4,16 @@ import AuthButton from './components/AuthButton';
 import {useAuth} from './contexts/AuthContext';
 import {SpotifyPlaylist} from './types/SpotifyPlaylist';
 import Playlists from './components/Playlists';
-import SpotifyTracks from './components/SpotifyTracks';
+import Tracks from './components/Tracks';
 
 function App(): React.JSX.Element {
   const isAuthenticated = useAuth();
   const [playlist, setPlaylist] = useState<SpotifyPlaylist | null>(null);
 
-  const renderConditionalContent = () => {
-    if (!isAuthenticated) return null;
+  const tracksOrPlaylists = () => {
+    // If a playlist is selected, return <Tracks>; otherwise, return <Playlists>
     return playlist ? (
-      <SpotifyTracks
+      <Tracks
         spotifyPlaylist={playlist}
         unselectPlaylist={() => setPlaylist(null)}
       />
@@ -25,7 +25,7 @@ function App(): React.JSX.Element {
   return (
     <>
       <Text style={styles.title}>SuperSetList</Text>
-      {renderConditionalContent()}
+      {isAuthenticated && tracksOrPlaylists()}
       <AuthButton />
     </>
   );
