@@ -1,11 +1,18 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
+import {SPOTIFY_GREEN} from '../theme/colors';
 import {useAuth} from '../contexts/AuthContext';
+import {AuthButtonProps} from '../types/SpotifyPlaylistProps';
 
-export default function AuthButton() {
+export default function AuthButton({clearAllPlaylists}: AuthButtonProps) {
   const {login, logout, isAuthenticated} = useAuth();
 
   const handleOnPress = () => {
-    isAuthenticated ? logout() : login();
+    if (isAuthenticated) {
+      clearAllPlaylists();
+      logout();
+    } else {
+      login();
+    }
   };
   return (
     <Pressable onPress={handleOnPress} style={styles.loginButton}>
@@ -20,7 +27,7 @@ const styles = StyleSheet.create({
   loginButton: {
     alignSelf: 'center',
     alignItems: 'center',
-    backgroundColor: '#1ED760', // Spotify green color
+    backgroundColor: SPOTIFY_GREEN,
     padding: 10,
     borderRadius: 8,
     width: '95%',

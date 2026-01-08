@@ -1,23 +1,41 @@
 import {SpotifyPlaylist, SpotifyTrack} from './SpotifyPlaylist';
 
-export type SpotifyPlaylistsProps = {
-  selectPlaylist: (p: SpotifyPlaylist) => void;
+type SpotifyPlaylistActions = {
+  updateSelectedPlaylists: (p: SpotifyPlaylist) => void;
+  focusPlaylist: (p: SpotifyPlaylist) => void;
 };
 
-export type SpotifyPlaylistProps = {
+export type SpotifyPlaylistsProps = SpotifyPlaylistActions & {
+  selectedPlaylists: SpotifyPlaylist[];
+};
+
+export type SpotifyPlaylistProps = SpotifyPlaylistActions & {
   spotifyPlaylist: SpotifyPlaylist;
-  selectPlaylist: (p: SpotifyPlaylist) => void;
-};
-
-export type BackButtonProps = {
-  unselectPlaylist: () => void;
+  isSelected: boolean;
 };
 
 export type SpotifyTracksProps = {
   spotifyPlaylist: SpotifyPlaylist;
-  unselectPlaylist: () => void;
+  size?: 'small' | 'large';
+};
+
+export type SpotifyTracksComparisonProps = {
+  selectedPlaylists: SpotifyPlaylist[];
 };
 
 export type SpotifyTrackProps = {
   spotifyTrack: SpotifyTrack;
+  size?: 'small' | 'large';
+};
+
+export type AuthButtonProps = {
+  clearAllPlaylists: () => void;
+};
+
+export type BackToPlaylistsButtonProps = {
+  clearAllPlaylists: () => void;
+};
+
+export type ListHeaderProps = {
+  spotifyPlaylist?: SpotifyPlaylist;
 };

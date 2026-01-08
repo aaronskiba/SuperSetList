@@ -4,11 +4,12 @@ import Track from './Track';
 import {SpotifyTracksProps} from '../types/SpotifyPlaylistProps';
 import {getPlaylistTracks} from '../services/trackService';
 import {useAuth} from '../contexts/AuthContext';
-import BackButton from './BackButton';
+import ListHeader from './ListHeader';
+import {View, StyleSheet, FlatList} from 'react-native';
 
 export default function Tracks({
   spotifyPlaylist,
-  unselectPlaylist,
+  size = 'large',
 }: SpotifyTracksProps) {
   const [tracks, setTracks] = useState<SpotifyTrack[] | null>(null);
   const {auth} = useAuth();
@@ -26,12 +27,19 @@ export default function Tracks({
   }, [accessToken]);
 
   return (
-    <>
-      <BackButton unselectPlaylist={unselectPlaylist} />
-      {tracks &&
-        tracks.map(track => {
-          return <Track key={track.id} spotifyTrack={track} />;
-        })}
-    </>
+    <View style={styles.column}>
+      <ListHeader spotifyPlaylist={spotifyPlaylist} />
+      <FlatList
+        data={tracks}
+        renderItem={({item}) => <Track spotifyTrack={item} size={size} />}
+        keyExtractor={item => item.id}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  column: {
+    flex: 1,
+  },
+});

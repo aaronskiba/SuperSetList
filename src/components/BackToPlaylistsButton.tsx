@@ -1,9 +1,12 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
-import {BackButtonProps} from '../types/SpotifyPlaylistProps';
+import {SPOTIFY_GREEN} from '../theme/colors';
+import {BackToPlaylistsButtonProps} from '../types/SpotifyPlaylistProps';
 
-export default function BackButton({unselectPlaylist}: BackButtonProps) {
+export default function BackToPlaylistsButton({
+  clearAllPlaylists,
+}: BackToPlaylistsButtonProps) {
   return (
-    <Pressable onPress={unselectPlaylist} style={styles.loginButton}>
+    <Pressable onPress={clearAllPlaylists} style={styles.loginButton}>
       <Text style={{color: 'black', fontWeight: 'bold'}}>
         {'Return to Playlists'}
       </Text>
@@ -15,7 +18,7 @@ const styles = StyleSheet.create({
   loginButton: {
     alignSelf: 'center',
     alignItems: 'center',
-    backgroundColor: '#1ED760', // Spotify green color
+    backgroundColor: SPOTIFY_GREEN,
     padding: 10,
     borderRadius: 8,
     width: '95%',
