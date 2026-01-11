@@ -15,15 +15,13 @@ export default function Tracks({
   const {auth} = useAuth();
   const accessToken = auth?.accessToken;
   useEffect(() => {
-    const fetchTracks = async () => {
-      if (!accessToken) {
-        setTracks(null);
-        return;
-      }
-      const data = await getPlaylistTracks(spotifyPlaylist.id, accessToken);
+    if (!accessToken) {
+      setTracks(null);
+      return;
+    }
+    getPlaylistTracks(spotifyPlaylist.id, accessToken).then(data => {
       setTracks(data);
-    };
-    fetchTracks();
+    });
   }, [accessToken]);
 
   return (
