@@ -17,15 +17,11 @@ export default function Playlists({
   const accessToken = auth?.accessToken;
 
   useEffect(() => {
-    const fetchPlaylists = async () => {
-      if (!accessToken) {
-        setPlaylists(null);
-        return;
-      }
-      const data = await getPlaylists(accessToken);
-      setPlaylists(data);
-    };
-    fetchPlaylists();
+    if (!accessToken) {
+      setPlaylists(null);
+      return;
+    }
+    getPlaylists(accessToken).then(setPlaylists).catch(console.error);
   }, [accessToken]);
 
   return (

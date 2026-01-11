@@ -3,8 +3,8 @@ import AuthButton from './components/AuthButton';
 import {useAuth} from './contexts/AuthContext';
 import {SpotifyPlaylist} from './types/SpotifyPlaylist';
 import Playlists from './components/Playlists';
-import Tracks from './components/Tracks';
-import TracksComparison from './components/TracksComparison';
+import PlaylistTracks from './components/PlaylistTracks';
+import CompareTracks from './components/CompareTracks';
 import BackToPlaylistsButton from './components/BackToPlaylistsButton';
 
 type Screen = 'playlists' | 'tracks' | 'compare';
@@ -47,9 +47,9 @@ function App(): React.JSX.Element {
   const renderScreen = () => {
     switch (screen) {
       case 'tracks':
-        return <Tracks spotifyPlaylist={focusedPlaylist!} />;
+        return <PlaylistTracks spotifyPlaylist={focusedPlaylist!} />;
       case 'compare':
-        return <TracksComparison selectedPlaylists={selectedPlaylists} />;
+        return <CompareTracks selectedPlaylists={selectedPlaylists} />;
       case 'playlists':
       default:
         return (
