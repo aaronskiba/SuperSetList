@@ -16,6 +16,7 @@ export type SpotifyPlaylistProps = SpotifyPlaylistActions & {
 
 export type SpotifyTracksProps = {
   spotifyPlaylist: SpotifyPlaylist;
+  spotifyTracks: SpotifyTrack[];
   size?: 'small' | 'large';
 };
 

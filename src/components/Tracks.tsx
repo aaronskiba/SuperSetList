@@ -1,34 +1,18 @@
-import {useEffect, useState} from 'react';
-import {SpotifyTrack} from '../types/SpotifyPlaylist';
 import Track from './Track';
 import {SpotifyTracksProps} from '../types/SpotifyPlaylistProps';
-import {getPlaylistTracks} from '../services/trackService';
-import {useAuth} from '../contexts/AuthContext';
 import ListHeader from './ListHeader';
 import {View, StyleSheet, FlatList} from 'react-native';
 
 export default function Tracks({
   spotifyPlaylist,
+  spotifyTracks,
   size = 'large',
 }: SpotifyTracksProps) {
-  const [tracks, setTracks] = useState<SpotifyTrack[] | null>(null);
-  const {auth} = useAuth();
-  const accessToken = auth?.accessToken;
-  useEffect(() => {
-    if (!accessToken) {
-      setTracks(null);
-      return;
-    }
-    getPlaylistTracks(spotifyPlaylist.id, accessToken).then(data => {
-      setTracks(data);
-    });
-  }, [accessToken]);
-
   return (
     <View style={styles.column}>
       <ListHeader spotifyPlaylist={spotifyPlaylist} />
       <FlatList
-        data={tracks}
+        data={spotifyTracks}
         renderItem={({item}) => <Track spotifyTrack={item} size={size} />}
         keyExtractor={item => item.id}
       />
