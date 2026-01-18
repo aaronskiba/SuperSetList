@@ -1,10 +1,11 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import {SpotifyTrack} from '../types/SpotifyPlaylist';
 import Tracks from './Tracks';
 import {getPlaylistTracks} from '../services/trackService';
 import {useAuth} from '../contexts/AuthContext';
 import {SpotifyTracksComparisonProps} from '../types/SpotifyPlaylistProps';
 import {View, StyleSheet} from 'react-native';
+import {getSharedTracks} from '../utils/trackUtils';
 
 export default function TracksComparison({
   selectedPlaylists,
@@ -14,6 +15,11 @@ export default function TracksComparison({
   const [rightTracks, setRightTracks] = useState<SpotifyTrack[]>([]);
   const {auth} = useAuth();
   const accessToken = auth?.accessToken;
+
+  const sharedTracks = useMemo(
+    () => getSharedTracks(leftTracks, rightTracks),
+    [leftTracks, rightTracks],
+  );
 
   useEffect(() => {
     if (!accessToken) {
