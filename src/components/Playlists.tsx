@@ -21,9 +21,7 @@ export default function Playlists({
       setPlaylists(null);
       return;
     }
-    getPlaylists(accessToken).then(data => {
-      setPlaylists(data);
-    });
+    getPlaylists(accessToken).then(setPlaylists);
   }, [accessToken]);
 
   return (

@@ -16,9 +16,7 @@ export default function PlaylistTracks({spotifyPlaylist}: PlaylistTracksProps) {
   useEffect(() => {
     if (!spotifyPlaylist || !accessToken) return;
 
-    getPlaylistTracks(spotifyPlaylist.id, accessToken).then(data => {
-      setTracks(data!);
-    });
+    getPlaylistTracks(spotifyPlaylist.id, accessToken).then(setTracks);
   }, [accessToken]);
 
   return <Tracks spotifyPlaylist={spotifyPlaylist} spotifyTracks={tracks} />;

@@ -27,12 +27,8 @@ export default function TracksComparison({
       setRightTracks([]);
       return;
     }
-    getPlaylistTracks(leftPlaylist.id, accessToken).then(data => {
-      setLeftTracks(data!);
-    });
-    getPlaylistTracks(rightPlaylist.id, accessToken).then(data => {
-      setRightTracks(data!);
-    });
+    getPlaylistTracks(leftPlaylist.id, accessToken).then(setLeftTracks);
+    getPlaylistTracks(rightPlaylist.id, accessToken).then(setRightTracks);
   }, [accessToken]);
 
   return (
