@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import AuthButton from './components/AuthButton';
 import {useAuth} from './contexts/AuthContext';
 import {SpotifyPlaylist} from './types/SpotifyPlaylist';
@@ -11,22 +11,16 @@ type Screen = 'playlists' | 'tracks' | 'compare';
 
 function App(): React.JSX.Element {
   const isAuthenticated = useAuth();
-  const [screen, setScreen] = useState<Screen>('playlists');
   const [selectedPlaylists, setSelectedPlaylists] = useState<SpotifyPlaylist[]>(
     [],
   );
   const [focusedPlaylist, setFocusedPlaylist] =
     useState<SpotifyPlaylist | null>(null);
-
-  useEffect(() => {
-    if (focusedPlaylist) {
-      setScreen('tracks');
-    } else if (selectedPlaylists.length === 2) {
-      setScreen('compare');
-    } else {
-      setScreen('playlists');
-    }
-  }, [focusedPlaylist, selectedPlaylists]);
+  const screen: Screen = focusedPlaylist
+    ? 'tracks'
+    : selectedPlaylists.length === 2
+    ? 'compare'
+    : 'playlists';
 
   const clearAllPlaylists = () => {
     setSelectedPlaylists([]);
@@ -47,6 +41,7 @@ function App(): React.JSX.Element {
   const renderScreen = () => {
     switch (screen) {
       case 'tracks':
+        // screen === 'tracks' implies focusedPlaylist !== null
         return <PlaylistTracks spotifyPlaylist={focusedPlaylist!} />;
       case 'compare':
         return <CompareTracks selectedPlaylists={selectedPlaylists} />;
