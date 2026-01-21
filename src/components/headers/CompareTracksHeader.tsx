@@ -7,7 +7,7 @@ export default function CompareTracksHeader({
   return (
     <Header
       title={`${spotifyPlaylists[0].name} <--> ${spotifyPlaylists[1].name}`}
-      images={spotifyPlaylists.map(p => p.images[0].url)}
+      images={spotifyPlaylists.map(p => p.images[0]?.url)}
     />
   );
 }
