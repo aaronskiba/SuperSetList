@@ -6,6 +6,8 @@ import {useAuth} from '../contexts/AuthContext';
 import {SpotifyTracksComparisonProps} from '../types/SpotifyPlaylistProps';
 import {View, StyleSheet} from 'react-native';
 import {getSharedTracks} from '../utils/trackUtils';
+import PlaylistHeader from './headers/PlaylistHeader';
+import CompareTracksHeader from './headers/CompareTracksHeader';
 
 export default function TracksComparison({
   selectedPlaylists,
@@ -32,24 +34,29 @@ export default function TracksComparison({
   }, [accessToken]);
 
   return (
-    <View style={styles.container}>
-      <Tracks
-        spotifyTracks={leftTracks}
-        spotifyPlaylist={leftPlaylist}
-        size={'small'}
-      />
-      <Tracks
-        spotifyTracks={rightTracks}
-        spotifyPlaylist={rightPlaylist}
-        size={'small'}
-      />
-    </View>
+    <>
+      <CompareTracksHeader spotifyPlaylists={selectedPlaylists} />
+      <Tracks spotifyTracks={sharedTracks} />
+      <View style={styles.container}>
+        <View style={styles.column}>
+          <PlaylistHeader spotifyPlaylist={leftPlaylist} />
+          <Tracks spotifyTracks={leftTracks} size={'small'} />
+        </View>
+        <View style={styles.column}>
+          <PlaylistHeader spotifyPlaylist={rightPlaylist} />
+          <Tracks spotifyTracks={rightTracks} size={'small'} />
+        </View>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    flex: 1,
+  },
+  column: {
     flex: 1,
   },
 });

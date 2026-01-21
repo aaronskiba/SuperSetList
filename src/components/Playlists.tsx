@@ -3,7 +3,7 @@ import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
 import {SpotifyPlaylistsProps} from '../types/SpotifyPlaylistProps';
 import {getPlaylists} from '../services/playlistService';
 import Playlist from './Playlist';
-import ListHeader from './ListHeader';
+import Header from './headers/Header';
 import {useAuth} from '../contexts/AuthContext';
 import {FlatList} from 'react-native';
 
@@ -26,7 +26,7 @@ export default function Playlists({
 
   return (
     <>
-      <ListHeader />
+      <Header title={'All Playlists'} images={[]} />
       <FlatList
         data={playlists}
         renderItem={({item}) => (

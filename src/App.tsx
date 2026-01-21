@@ -6,6 +6,7 @@ import Playlists from './components/Playlists';
 import PlaylistTracks from './components/PlaylistTracks';
 import CompareTracks from './components/CompareTracks';
 import BackToPlaylistsButton from './components/BackToPlaylistsButton';
+import Header from './components/headers/Header';
 
 type Screen = 'playlists' | 'tracks' | 'compare';
 
@@ -59,6 +60,7 @@ function App(): React.JSX.Element {
 
   return (
     <>
+      <Header title={'SuperSetlist'} images={[]} />
       {isAuthenticated && screen !== 'playlists' && (
         <BackToPlaylistsButton clearAllPlaylists={clearAllPlaylists} />
       )}
