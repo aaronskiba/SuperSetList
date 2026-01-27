@@ -19,7 +19,7 @@ export default function PlaylistTracks({spotifyPlaylist}: PlaylistTracksProps) {
     if (!spotifyPlaylist || !accessToken) return;
 
     getPlaylistTracks(spotifyPlaylist.id, accessToken).then(setTracks);
-  }, [accessToken]);
+  }, [accessToken, spotifyPlaylist.id]);
 
   return (
     <View style={styles.column}>

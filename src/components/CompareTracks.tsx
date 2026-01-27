@@ -24,14 +24,14 @@ export default function TracksComparison({
   );
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!accessToken || !leftPlaylist || !rightPlaylist) {
       setLeftTracks([]);
       setRightTracks([]);
       return;
     }
     getPlaylistTracks(leftPlaylist.id, accessToken).then(setLeftTracks);
     getPlaylistTracks(rightPlaylist.id, accessToken).then(setRightTracks);
-  }, [accessToken]);
+  }, [accessToken, leftPlaylist.id, rightPlaylist.id]);
 
   return (
     <>
