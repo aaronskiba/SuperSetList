@@ -1,32 +1,27 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import AuthButton from './components/AuthButton';
 import {useAuth} from './contexts/AuthContext';
 import {SpotifyPlaylist} from './types/SpotifyPlaylist';
 import Playlists from './components/Playlists';
-import Tracks from './components/Tracks';
-import TracksComparison from './components/TracksComparison';
+import PlaylistTracks from './components/PlaylistTracks';
+import CompareTracks from './components/CompareTracks';
 import BackToPlaylistsButton from './components/BackToPlaylistsButton';
+import Header from './components/headers/Header';
 
 type Screen = 'playlists' | 'tracks' | 'compare';
 
 function App(): React.JSX.Element {
   const isAuthenticated = useAuth();
-  const [screen, setScreen] = useState<Screen>('playlists');
   const [selectedPlaylists, setSelectedPlaylists] = useState<SpotifyPlaylist[]>(
     [],
   );
   const [focusedPlaylist, setFocusedPlaylist] =
     useState<SpotifyPlaylist | null>(null);
-
-  useEffect(() => {
-    if (focusedPlaylist) {
-      setScreen('tracks');
-    } else if (selectedPlaylists.length === 2) {
-      setScreen('compare');
-    } else {
-      setScreen('playlists');
-    }
-  }, [focusedPlaylist, selectedPlaylists]);
+  const screen: Screen = focusedPlaylist
+    ? 'tracks'
+    : selectedPlaylists.length === 2
+    ? 'compare'
+    : 'playlists';
 
   const clearAllPlaylists = () => {
     setSelectedPlaylists([]);
@@ -47,9 +42,10 @@ function App(): React.JSX.Element {
   const renderScreen = () => {
     switch (screen) {
       case 'tracks':
-        return <Tracks spotifyPlaylist={focusedPlaylist!} />;
+        // screen === 'tracks' implies focusedPlaylist !== null
+        return <PlaylistTracks spotifyPlaylist={focusedPlaylist!} />;
       case 'compare':
-        return <TracksComparison selectedPlaylists={selectedPlaylists} />;
+        return <CompareTracks selectedPlaylists={selectedPlaylists} />;
       case 'playlists':
       default:
         return (
@@ -64,6 +60,7 @@ function App(): React.JSX.Element {
 
   return (
     <>
+      <Header title={'SuperSetlist'} images={[]} />
       {isAuthenticated && screen !== 'playlists' && (
         <BackToPlaylistsButton clearAllPlaylists={clearAllPlaylists} />
       )}

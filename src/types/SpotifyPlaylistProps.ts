@@ -15,7 +15,7 @@ export type SpotifyPlaylistProps = SpotifyPlaylistActions & {
 };
 
 export type SpotifyTracksProps = {
-  spotifyPlaylist: SpotifyPlaylist;
+  spotifyTracks: SpotifyTrack[];
   size?: 'small' | 'large';
 };
 
@@ -36,6 +36,15 @@ export type BackToPlaylistsButtonProps = {
   clearAllPlaylists: () => void;
 };
 
-export type ListHeaderProps = {
-  spotifyPlaylist?: SpotifyPlaylist;
+export type HeaderProps = {
+  title: string;
+  images: string[];
+};
+
+export type PlaylistHeaderProps = {
+  spotifyPlaylist: SpotifyPlaylist;
+};
+
+export type CompareTracksHeaderProps = {
+  spotifyPlaylists: SpotifyPlaylist[];
 };

@@ -3,7 +3,7 @@ import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
 import {SpotifyPlaylistsProps} from '../types/SpotifyPlaylistProps';
 import {getPlaylists} from '../services/playlistService';
 import Playlist from './Playlist';
-import ListHeader from './ListHeader';
+import Header from './headers/Header';
 import {useAuth} from '../contexts/AuthContext';
 import {FlatList} from 'react-native';
 
@@ -17,20 +17,16 @@ export default function Playlists({
   const accessToken = auth?.accessToken;
 
   useEffect(() => {
-    const fetchPlaylists = async () => {
-      if (!accessToken) {
-        setPlaylists(null);
-        return;
-      }
-      const data = await getPlaylists(accessToken);
-      setPlaylists(data);
-    };
-    fetchPlaylists();
+    if (!accessToken) {
+      setPlaylists(null);
+      return;
+    }
+    getPlaylists(accessToken).then(setPlaylists).catch(console.error);
   }, [accessToken]);
 
   return (
     <>
-      <ListHeader />
+      <Header title={'All Playlists'} images={[]} />
       <FlatList
         data={playlists}
         renderItem={({item}) => (

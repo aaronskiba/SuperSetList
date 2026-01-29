@@ -7,7 +7,7 @@ export const handleSpotifyAuth = async (): Promise<SpotifyAuth> => {
     const spotifyAuthData = await authorize(spotifyAuthConfig);
     return spotifyAuthData;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
 };

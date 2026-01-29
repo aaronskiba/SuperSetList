@@ -29,6 +29,9 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
 
   const logout = () => setAuth(null);
 
+  // TODO: isAuthenticated currently only checks for accessToken presence.
+  // Token expiry is not validated, so expired tokens may be treated as authenticated
+  // until this is addressed.
   const isAuthenticated = !!auth?.accessToken;
 
   return (
