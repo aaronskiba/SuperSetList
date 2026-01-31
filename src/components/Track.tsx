@@ -1,5 +1,10 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {SpotifyTrackProps} from '../types/SpotifyPlaylistProps';
+import {SpotifyTrack} from '../types/SpotifyPlaylist';
+
+type SpotifyTrackProps = {
+  spotifyTrack: SpotifyTrack;
+  size?: 'small' | 'large';
+};
 
 const IMAGE_SIZE_MAP = {
   small: 65,

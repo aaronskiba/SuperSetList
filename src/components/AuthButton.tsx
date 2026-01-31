@@ -1,7 +1,10 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
 import {SPOTIFY_GREEN} from '../theme/colors';
 import {useAuth} from '../contexts/AuthContext';
-import {AuthButtonProps} from '../types/SpotifyPlaylistProps';
+
+type AuthButtonProps = {
+  clearAllPlaylists: () => void;
+};
 
 export default function AuthButton({clearAllPlaylists}: AuthButtonProps) {
   const {login, logout, isAuthenticated} = useAuth();

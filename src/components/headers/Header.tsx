@@ -1,5 +1,9 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {HeaderProps} from '../../types/SpotifyPlaylistProps';
+
+type HeaderProps = {
+  title: string;
+  images: string[];
+};
 
 export default function Header({title, images}: HeaderProps) {
   return (

@@ -1,5 +1,9 @@
-import {PlaylistHeaderProps} from '../../types/SpotifyPlaylistProps';
+import {SpotifyPlaylist} from '../../types/SpotifyPlaylist';
 import Header from './Header';
+
+type PlaylistHeaderProps = {
+  spotifyPlaylist: SpotifyPlaylist;
+};
 
 export default function PlaylistHeader({spotifyPlaylist}: PlaylistHeaderProps) {
   return (

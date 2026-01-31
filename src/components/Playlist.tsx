@@ -1,6 +1,12 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {PLAYLIST_BG} from '../theme/colors';
-import {SpotifyPlaylistProps} from '../types/SpotifyPlaylistProps';
+import {SpotifyPlaylistActions} from '../types/SpotifyPlaylistProps';
+import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
+
+type SpotifyPlaylistProps = SpotifyPlaylistActions & {
+  spotifyPlaylist: SpotifyPlaylist;
+  isSelected: boolean;
+};
 
 export default function Playlist({
   spotifyPlaylist,

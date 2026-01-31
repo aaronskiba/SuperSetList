@@ -1,6 +1,9 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
 import {SPOTIFY_GREEN} from '../theme/colors';
-import {BackToPlaylistsButtonProps} from '../types/SpotifyPlaylistProps';
+
+type BackToPlaylistsButtonProps = {
+  clearAllPlaylists: () => void;
+};
 
 export default function BackToPlaylistsButton({
   clearAllPlaylists,

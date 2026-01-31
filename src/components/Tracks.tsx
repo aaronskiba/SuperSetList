@@ -1,6 +1,11 @@
+import {SpotifyTrack} from '../types/SpotifyPlaylist';
 import Track from './Track';
-import {SpotifyTracksProps} from '../types/SpotifyPlaylistProps';
 import {FlatList} from 'react-native';
+
+type SpotifyTracksProps = {
+  spotifyTracks: SpotifyTrack[];
+  size?: 'small' | 'large';
+};
 
 export default function Tracks({
   spotifyTracks,

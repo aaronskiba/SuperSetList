@@ -1,5 +1,9 @@
-import {CompareTracksHeaderProps} from '../../types/SpotifyPlaylistProps';
+import {SpotifyPlaylist} from '../../types/SpotifyPlaylist';
 import Header from './Header';
+
+type CompareTracksHeaderProps = {
+  spotifyPlaylists: SpotifyPlaylist[];
+};
 
 export default function CompareTracksHeader({
   spotifyPlaylists,

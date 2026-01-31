@@ -1,13 +1,16 @@
 import {useState, useEffect, useMemo} from 'react';
-import {SpotifyTrack} from '../types/SpotifyPlaylist';
+import {SpotifyPlaylist, SpotifyTrack} from '../types/SpotifyPlaylist';
 import Tracks from './Tracks';
 import {getPlaylistTracks} from '../services/trackService';
 import {useAuth} from '../contexts/AuthContext';
-import {SpotifyTracksComparisonProps} from '../types/SpotifyPlaylistProps';
 import {View, StyleSheet} from 'react-native';
 import {getSharedTracks} from '../utils/trackUtils';
 import PlaylistHeader from './headers/PlaylistHeader';
 import CompareTracksHeader from './headers/CompareTracksHeader';
+
+type SpotifyTracksComparisonProps = {
+  selectedPlaylists: SpotifyPlaylist[];
+};
 
 export default function TracksComparison({
   selectedPlaylists,

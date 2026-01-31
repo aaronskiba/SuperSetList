@@ -1,11 +1,15 @@
 import {useEffect, useState} from 'react';
 import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
-import {SpotifyPlaylistsProps} from '../types/SpotifyPlaylistProps';
+import {SpotifyPlaylistActions} from '../types/SpotifyPlaylistProps';
 import {getPlaylists} from '../services/playlistService';
 import Playlist from './Playlist';
 import Header from './headers/Header';
 import {useAuth} from '../contexts/AuthContext';
 import {FlatList} from 'react-native';
+
+type SpotifyPlaylistsProps = SpotifyPlaylistActions & {
+  selectedPlaylists: SpotifyPlaylist[];
+};
 
 export default function Playlists({
   selectedPlaylists,
