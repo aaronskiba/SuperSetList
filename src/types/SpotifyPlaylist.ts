@@ -23,9 +23,11 @@ export interface SpotifyPlaylist {
     href: string;
     total: number;
   };
-  images: {
-    url: string;
-  }[];
+  images:
+    | {
+        url: string;
+      }[]
+    | null;
 }
 
 export interface SpotifyTrack {

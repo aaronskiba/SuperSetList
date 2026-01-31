@@ -29,7 +29,7 @@ export default function Playlist({
       ]}>
       <View style={styles.container}>
         <Image
-          source={{uri: spotifyPlaylist.images[0]?.url}}
+          source={{uri: spotifyPlaylist.images?.[0]?.url}}
           style={{width: 100, height: 100}}
         />
         <View style={styles.textContainer}>
