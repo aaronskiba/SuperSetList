@@ -1,4 +1,4 @@
-import {useState, useEffect, useMemo} from 'react';
+import {useMemo} from 'react';
 import {SpotifyPlaylist, SpotifyTrack} from '../types/SpotifyPlaylist';
 import Tracks from './Tracks';
 import {getPlaylistTracks} from '../services/trackService';
@@ -7,6 +7,7 @@ import {View, StyleSheet} from 'react-native';
 import {getSharedTracks} from '../utils/trackUtils';
 import PlaylistHeader from './headers/PlaylistHeader';
 import CompareTracksHeader from './headers/CompareTracksHeader';
+import {useFetch} from '../hooks/useFetch';
 
 type SpotifyTracksComparisonProps = {
   selectedPlaylists: SpotifyPlaylist[];
@@ -16,32 +17,23 @@ export default function TracksComparison({
   selectedPlaylists,
 }: SpotifyTracksComparisonProps) {
   const [leftPlaylist, rightPlaylist] = selectedPlaylists;
-  const [leftTracks, setLeftTracks] = useState<SpotifyTrack[]>([]);
-  const [rightTracks, setRightTracks] = useState<SpotifyTrack[]>([]);
   const {auth} = useAuth();
-  const accessToken = auth?.accessToken;
+  const accessToken = auth?.accessToken || '';
+
+  const {data: leftTracks} = useFetch<SpotifyTrack[]>(
+    () => getPlaylistTracks(leftPlaylist.id, accessToken),
+    [accessToken, leftPlaylist.id],
+  );
+
+  const {data: rightTracks} = useFetch<SpotifyTrack[]>(
+    () => getPlaylistTracks(rightPlaylist.id, accessToken),
+    [accessToken, rightPlaylist.id],
+  );
 
   const sharedTracks = useMemo(
     () => getSharedTracks(leftTracks, rightTracks),
     [leftTracks, rightTracks],
   );
-
-  useEffect(() => {
-    if (!accessToken || !leftPlaylist || !rightPlaylist) {
-      setLeftTracks([]);
-      setRightTracks([]);
-      return;
-    }
-    Promise.all([
-      getPlaylistTracks(leftPlaylist.id, accessToken),
-      getPlaylistTracks(rightPlaylist.id, accessToken),
-    ])
-      .then(([lData, rData]) => {
-        setLeftTracks(lData);
-        setRightTracks(rData);
-      })
-      .catch(console.error);
-  }, [accessToken, leftPlaylist.id, rightPlaylist.id]);
 
   return (
     <>

@@ -1,4 +1,3 @@
-import {useEffect, useState} from 'react';
 import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
 import {SpotifyPlaylistActions} from '../types/SpotifyPlaylistProps';
 import {getPlaylists} from '../services/playlistService';
@@ -6,6 +5,7 @@ import Playlist from './Playlist';
 import Header from './headers/Header';
 import {useAuth} from '../contexts/AuthContext';
 import {FlatList} from 'react-native';
+import {useFetch} from '../hooks/useFetch';
 
 type SpotifyPlaylistsProps = SpotifyPlaylistActions & {
   selectedPlaylists: SpotifyPlaylist[];
@@ -16,17 +16,13 @@ export default function Playlists({
   updateSelectedPlaylists,
   focusPlaylist,
 }: SpotifyPlaylistsProps) {
-  const [playlists, setPlaylists] = useState<SpotifyPlaylist[] | null>(null);
   const {auth} = useAuth();
-  const accessToken = auth?.accessToken;
+  const accessToken = auth?.accessToken || '';
 
-  useEffect(() => {
-    if (!accessToken) {
-      setPlaylists(null);
-      return;
-    }
-    getPlaylists(accessToken).then(setPlaylists).catch(console.error);
-  }, [accessToken]);
+  const {data: playlists} = useFetch<SpotifyPlaylist[]>(
+    () => getPlaylists(accessToken),
+    [accessToken],
+  );
 
   return (
     <>
