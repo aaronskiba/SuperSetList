@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 type FetchState<T> = {
   data: T | null;
   error: Error | null;
+  isLoading: boolean;
 };
 
 export function useFetch<T>(
@@ -12,6 +13,7 @@ export function useFetch<T>(
   const [fetchState, setFetchState] = useState<FetchState<T>>({
     data: null,
     error: null,
+    isLoading: false,
   });
 
   useEffect(() => {
@@ -19,13 +21,13 @@ export function useFetch<T>(
     const signal = controller.signal;
 
     const handleFetch = async () => {
-      setFetchState({data: null, error: null});
+      setFetchState({data: null, error: null, isLoading: true});
       try {
         const data = await fetchFn(signal);
-        setFetchState({data, error: null});
+        setFetchState({data, error: null, isLoading: false});
       } catch (error: any) {
         if (signal.aborted) return;
-        setFetchState({data: null, error});
+        setFetchState({data: null, error, isLoading: false});
       }
     };
 

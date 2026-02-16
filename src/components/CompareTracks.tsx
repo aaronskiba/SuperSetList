@@ -8,6 +8,7 @@ import PlaylistHeader from './headers/PlaylistHeader';
 import CompareTracksHeader from './headers/CompareTracksHeader';
 import ErrorMessage from './ErrorMessage';
 import {useFetchTracks} from '../hooks/useFetchSpotify';
+import Loader from './Loader';
 
 type SpotifyTracksComparisonProps = {
   selectedPlaylists: SpotifyPlaylist[];
@@ -20,14 +21,16 @@ export default function TracksComparison({
   const {auth} = useAuth();
   const accessToken = auth?.accessToken || '';
 
-  const {data: leftTracks, error: leftError} = useFetchTracks(
-    leftPlaylist.id,
-    accessToken,
-  );
-  const {data: rightTracks, error: rightError} = useFetchTracks(
-    rightPlaylist.id,
-    accessToken,
-  );
+  const {
+    data: leftTracks,
+    error: leftError,
+    isLoading: leftIsLoading,
+  } = useFetchTracks(leftPlaylist.id, accessToken);
+  const {
+    data: rightTracks,
+    error: rightError,
+    isLoading: rightIsLoading,
+  } = useFetchTracks(rightPlaylist.id, accessToken);
 
   const sharedTracks = useMemo(() => {
     if (!leftTracks || !rightTracks) return null;
@@ -38,9 +41,11 @@ export default function TracksComparison({
     playlist: SpotifyPlaylist,
     tracks: SpotifyTrack[] | null,
     error: Error | null,
+    isLoading: boolean,
   ) => (
     <View style={styles.column}>
       <PlaylistHeader spotifyPlaylist={playlist} />
+      <Loader isLoading={isLoading} />
       <ErrorMessage error={error} />
       {tracks && <Tracks spotifyTracks={tracks} size={'small'} />}
     </View>
@@ -49,10 +54,21 @@ export default function TracksComparison({
   return (
     <>
       <CompareTracksHeader spotifyPlaylists={selectedPlaylists} />
+      <Loader isLoading={leftIsLoading || rightIsLoading} />
       {sharedTracks && <Tracks spotifyTracks={sharedTracks} />}
       <View style={styles.container}>
-        {renderCompareTracksColumn(leftPlaylist, leftTracks, leftError)}
-        {renderCompareTracksColumn(rightPlaylist, rightTracks, rightError)}
+        {renderCompareTracksColumn(
+          leftPlaylist,
+          leftTracks,
+          leftError,
+          leftIsLoading,
+        )}
+        {renderCompareTracksColumn(
+          rightPlaylist,
+          rightTracks,
+          rightError,
+          rightIsLoading,
+        )}
       </View>
     </>
   );

@@ -5,6 +5,7 @@ import {View, StyleSheet} from 'react-native';
 import PlaylistHeader from './headers/PlaylistHeader';
 import ErrorMessage from './ErrorMessage';
 import {useFetchTracks} from '../hooks/useFetchSpotify';
+import Loader from './Loader';
 
 type PlaylistTracksProps = {
   spotifyPlaylist: SpotifyPlaylist;
@@ -13,11 +14,16 @@ type PlaylistTracksProps = {
 export default function PlaylistTracks({spotifyPlaylist}: PlaylistTracksProps) {
   const {auth} = useAuth();
   const accessToken = auth?.accessToken || '';
-  const {data: tracks, error} = useFetchTracks(spotifyPlaylist.id, accessToken);
+  const {
+    data: tracks,
+    error,
+    isLoading,
+  } = useFetchTracks(spotifyPlaylist.id, accessToken);
 
   return (
     <View style={styles.column}>
       <PlaylistHeader spotifyPlaylist={spotifyPlaylist} />
+      <Loader isLoading={isLoading} />
       <ErrorMessage error={error} />
       {tracks && <Tracks spotifyTracks={tracks} />}
     </View>
