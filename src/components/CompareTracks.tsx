@@ -1,5 +1,5 @@
 import {useMemo} from 'react';
-import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
+import {SpotifyPlaylist, SpotifyTrack} from '../types/SpotifyPlaylist';
 import Tracks from './Tracks';
 import {useAuth} from '../contexts/AuthContext';
 import {View, StyleSheet} from 'react-native';
@@ -34,21 +34,25 @@ export default function TracksComparison({
     return getSharedTracks(leftTracks, rightTracks);
   }, [leftTracks, rightTracks]);
 
+  const renderCompareTracksColumn = (
+    playlist: SpotifyPlaylist,
+    tracks: SpotifyTrack[] | null,
+    error: Error | null,
+  ) => (
+    <View style={styles.column}>
+      <PlaylistHeader spotifyPlaylist={playlist} />
+      <ErrorMessage error={error} />
+      {tracks && <Tracks spotifyTracks={tracks} size={'small'} />}
+    </View>
+  );
+
   return (
     <>
       <CompareTracksHeader spotifyPlaylists={selectedPlaylists} />
       {sharedTracks && <Tracks spotifyTracks={sharedTracks} />}
       <View style={styles.container}>
-        <View style={styles.column}>
-          <PlaylistHeader spotifyPlaylist={leftPlaylist} />
-          <ErrorMessage error={leftError} />
-          {leftTracks && <Tracks spotifyTracks={leftTracks} size={'small'} />}
-        </View>
-        <View style={styles.column}>
-          <PlaylistHeader spotifyPlaylist={rightPlaylist} />
-          <ErrorMessage error={rightError} />
-          {rightTracks && <Tracks spotifyTracks={rightTracks} size={'small'} />}
-        </View>
+        {renderCompareTracksColumn(leftPlaylist, leftTracks, leftError)}
+        {renderCompareTracksColumn(rightPlaylist, rightTracks, rightError)}
       </View>
     </>
   );
