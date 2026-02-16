@@ -21,12 +21,12 @@ export default function TracksComparison({
   const accessToken = auth?.accessToken || '';
 
   const {data: leftTracks} = useFetch<SpotifyTrack[]>(
-    () => getPlaylistTracks(leftPlaylist.id, accessToken),
+    signal => getPlaylistTracks(leftPlaylist.id, accessToken, signal),
     [accessToken, leftPlaylist.id],
   );
 
   const {data: rightTracks} = useFetch<SpotifyTrack[]>(
-    () => getPlaylistTracks(rightPlaylist.id, accessToken),
+    signal => getPlaylistTracks(rightPlaylist.id, accessToken, signal),
     [accessToken, rightPlaylist.id],
   );
 

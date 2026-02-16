@@ -15,7 +15,7 @@ export default function PlaylistTracks({spotifyPlaylist}: PlaylistTracksProps) {
   const accessToken = auth?.accessToken || '';
 
   const {data: tracks} = useFetch<SpotifyTrack[]>(
-    () => getPlaylistTracks(spotifyPlaylist.id, accessToken),
+    signal => getPlaylistTracks(spotifyPlaylist.id, accessToken, signal),
     [accessToken, spotifyPlaylist.id],
   );
 

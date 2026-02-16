@@ -20,7 +20,7 @@ export default function Playlists({
   const accessToken = auth?.accessToken || '';
 
   const {data: playlists} = useFetch<SpotifyPlaylist[]>(
-    () => getPlaylists(accessToken),
+    signal => getPlaylists(accessToken, signal),
     [accessToken],
   );
 
