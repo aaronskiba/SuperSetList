@@ -6,6 +6,7 @@ import Header from './headers/Header';
 import {useAuth} from '../contexts/AuthContext';
 import {FlatList} from 'react-native';
 import {useFetch} from '../hooks/useFetch';
+import ErrorMessage from './ErrorMessage';
 
 type SpotifyPlaylistsProps = SpotifyPlaylistActions & {
   selectedPlaylists: SpotifyPlaylist[];
@@ -19,7 +20,7 @@ export default function Playlists({
   const {auth} = useAuth();
   const accessToken = auth?.accessToken || '';
 
-  const {data: playlists} = useFetch<SpotifyPlaylist[]>(
+  const {data: playlists, error} = useFetch<SpotifyPlaylist[]>(
     signal => getPlaylists(accessToken, signal),
     [accessToken],
   );
@@ -27,18 +28,21 @@ export default function Playlists({
   return (
     <>
       <Header title={'All Playlists'} images={[]} />
-      <FlatList
-        data={playlists}
-        renderItem={({item}) => (
-          <Playlist
-            spotifyPlaylist={item}
-            isSelected={!!selectedPlaylists.some(p => p.id === item.id)}
-            updateSelectedPlaylists={updateSelectedPlaylists}
-            focusPlaylist={focusPlaylist}
-          />
-        )}
-        keyExtractor={item => item.id}
-      />
+      <ErrorMessage error={error} />
+      {playlists && (
+        <FlatList
+          data={playlists}
+          renderItem={({item}) => (
+            <Playlist
+              spotifyPlaylist={item}
+              isSelected={!!selectedPlaylists.some(p => p.id === item.id)}
+              updateSelectedPlaylists={updateSelectedPlaylists}
+              focusPlaylist={focusPlaylist}
+            />
+          )}
+          keyExtractor={item => item.id}
+        />
+      )}
     </>
   );
 }
