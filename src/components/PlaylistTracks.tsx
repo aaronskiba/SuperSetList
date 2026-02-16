@@ -1,11 +1,10 @@
-import {SpotifyPlaylist, SpotifyTrack} from '../types/SpotifyPlaylist';
-import {getPlaylistTracks} from '../services/trackService';
+import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
 import {useAuth} from '../contexts/AuthContext';
 import Tracks from './Tracks';
 import {View, StyleSheet} from 'react-native';
 import PlaylistHeader from './headers/PlaylistHeader';
-import {useFetch} from '../hooks/useFetch';
 import ErrorMessage from './ErrorMessage';
+import {useFetchTracks} from '../hooks/useFetchSpotify';
 
 type PlaylistTracksProps = {
   spotifyPlaylist: SpotifyPlaylist;
@@ -14,11 +13,7 @@ type PlaylistTracksProps = {
 export default function PlaylistTracks({spotifyPlaylist}: PlaylistTracksProps) {
   const {auth} = useAuth();
   const accessToken = auth?.accessToken || '';
-
-  const {data: tracks, error} = useFetch<SpotifyTrack[]>(
-    signal => getPlaylistTracks(spotifyPlaylist.id, accessToken, signal),
-    [accessToken, spotifyPlaylist.id],
-  );
+  const {data: tracks, error} = useFetchTracks(spotifyPlaylist.id, accessToken);
 
   return (
     <View style={styles.column}>
