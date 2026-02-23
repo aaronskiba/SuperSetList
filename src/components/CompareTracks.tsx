@@ -18,8 +18,7 @@ export default function TracksComparison({
   selectedPlaylists,
 }: SpotifyTracksComparisonProps) {
   const [leftPlaylist, rightPlaylist] = selectedPlaylists;
-  const {auth} = useAuth();
-  const accessToken = auth?.accessToken || '';
+  const {accessToken} = useAuth();
 
   const {
     data: leftTracks,

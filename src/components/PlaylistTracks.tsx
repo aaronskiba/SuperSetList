@@ -12,8 +12,7 @@ type PlaylistTracksProps = {
 };
 
 export default function PlaylistTracks({spotifyPlaylist}: PlaylistTracksProps) {
-  const {auth} = useAuth();
-  const accessToken = auth?.accessToken || '';
+  const {accessToken} = useAuth();
   const {
     data: tracks,
     error,

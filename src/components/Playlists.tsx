@@ -17,8 +17,7 @@ export default function Playlists({
   updateSelectedPlaylists,
   focusPlaylist,
 }: SpotifyPlaylistsProps) {
-  const {auth} = useAuth();
-  const accessToken = auth?.accessToken || '';
+  const {accessToken} = useAuth();
   const {data: playlists, error, isLoading} = useFetchPlaylists(accessToken);
 
   return (
