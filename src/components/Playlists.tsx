@@ -2,7 +2,6 @@ import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
 import {SpotifyPlaylistActions} from '../types/SpotifyPlaylistProps';
 import Playlist from './Playlist';
 import Header from './headers/Header';
-import {useAuth} from '../contexts/AuthContext';
 import {FlatList} from 'react-native';
 import ErrorMessage from './ErrorMessage';
 import {useFetchPlaylists} from '../hooks/useFetchSpotify';
@@ -17,8 +16,7 @@ export default function Playlists({
   updateSelectedPlaylists,
   focusPlaylist,
 }: SpotifyPlaylistsProps) {
-  const {accessToken} = useAuth();
-  const {data: playlists, error, isLoading} = useFetchPlaylists(accessToken);
+  const {data: playlists, error, isLoading} = useFetchPlaylists();
 
   return (
     <>

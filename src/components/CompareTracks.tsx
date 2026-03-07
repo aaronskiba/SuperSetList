@@ -1,7 +1,6 @@
 import {useMemo} from 'react';
 import {SpotifyPlaylist, SpotifyTrack} from '../types/SpotifyPlaylist';
 import Tracks from './Tracks';
-import {useAuth} from '../contexts/AuthContext';
 import {View, StyleSheet} from 'react-native';
 import {getSharedTracks} from '../utils/trackUtils';
 import PlaylistHeader from './headers/PlaylistHeader';
@@ -18,18 +17,17 @@ export default function TracksComparison({
   selectedPlaylists,
 }: SpotifyTracksComparisonProps) {
   const [leftPlaylist, rightPlaylist] = selectedPlaylists;
-  const {accessToken} = useAuth();
 
   const {
     data: leftTracks,
     error: leftError,
     isLoading: leftIsLoading,
-  } = useFetchTracks(leftPlaylist.id, accessToken);
+  } = useFetchTracks(leftPlaylist.id);
   const {
     data: rightTracks,
     error: rightError,
     isLoading: rightIsLoading,
-  } = useFetchTracks(rightPlaylist.id, accessToken);
+  } = useFetchTracks(rightPlaylist.id);
 
   const sharedTracks = useMemo(() => {
     if (!leftTracks || !rightTracks) return null;

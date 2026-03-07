@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import {useAuth} from '../contexts/AuthContext';
 
 type FetchState<T> = {
   data: T | null;
@@ -7,7 +8,7 @@ type FetchState<T> = {
 };
 
 export function useFetch<T>(
-  fetchFn: (signal: AbortSignal) => Promise<T>,
+  fetchFn: (accessToken: string, signal: AbortSignal) => Promise<T>,
   deps: any[] = [],
 ) {
   const [fetchState, setFetchState] = useState<FetchState<T>>({
@@ -15,6 +16,7 @@ export function useFetch<T>(
     error: null,
     isLoading: false,
   });
+  const {isAuthenticated, getValidAccessToken} = useAuth();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -23,7 +25,12 @@ export function useFetch<T>(
     const handleFetch = async () => {
       setFetchState({data: null, error: null, isLoading: true});
       try {
-        const data = await fetchFn(signal);
+        const accessToken = await getValidAccessToken();
+        if (!accessToken) {
+          setFetchState({data: null, error: null, isLoading: false});
+          return;
+        }
+        const data = await fetchFn(accessToken, signal);
         setFetchState({data, error: null, isLoading: false});
       } catch (error: any) {
         if (signal.aborted) return;
@@ -31,12 +38,17 @@ export function useFetch<T>(
       }
     };
 
+    if (!isAuthenticated) {
+      setFetchState({data: null, error: null, isLoading: false});
+      return () => controller.abort();
+    }
+
     handleFetch();
 
     return () => {
       controller.abort();
     };
-  }, deps);
+  }, [isAuthenticated, ...deps]);
 
   return fetchState;
 }

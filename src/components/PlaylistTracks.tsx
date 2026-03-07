@@ -1,5 +1,4 @@
 import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
-import {useAuth} from '../contexts/AuthContext';
 import Tracks from './Tracks';
 import {View, StyleSheet} from 'react-native';
 import PlaylistHeader from './headers/PlaylistHeader';
@@ -12,12 +11,7 @@ type PlaylistTracksProps = {
 };
 
 export default function PlaylistTracks({spotifyPlaylist}: PlaylistTracksProps) {
-  const {accessToken} = useAuth();
-  const {
-    data: tracks,
-    error,
-    isLoading,
-  } = useFetchTracks(spotifyPlaylist.id, accessToken);
+  const {data: tracks, error, isLoading} = useFetchTracks(spotifyPlaylist.id);
 
   return (
     <View style={styles.column}>
