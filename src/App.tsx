@@ -60,7 +60,7 @@ function App(): React.JSX.Element {
 
   return (
     <>
-      <Header title={'SuperSetlist'} images={[]} />
+      <Header title={'SuperSetlist'} imageUris={[]} />
       {isAuthenticated && screen !== 'playlists' && (
         <BackToPlaylistsButton clearAllPlaylists={clearAllPlaylists} />
       )}

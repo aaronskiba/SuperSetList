@@ -1,4 +1,5 @@
 import {SpotifyPlaylist} from '../../types/SpotifyPlaylist';
+import {getUriFromImages} from '../../utils/spotifyImages';
 import Header from './Header';
 
 type PlaylistHeaderProps = {
@@ -9,7 +10,7 @@ export default function PlaylistHeader({spotifyPlaylist}: PlaylistHeaderProps) {
   return (
     <Header
       title={`${spotifyPlaylist.name} Tracks`}
-      images={spotifyPlaylist.images ? [spotifyPlaylist.images[0].url] : []}
+      imageUris={[getUriFromImages(spotifyPlaylist.images)]}
     />
   );
 }

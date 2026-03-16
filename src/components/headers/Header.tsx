@@ -2,16 +2,19 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 
 type HeaderProps = {
   title: string;
-  images: string[];
+  imageUris: Array<string | null>;
 };
 
-export default function Header({title, images}: HeaderProps) {
+export default function Header({title, imageUris}: HeaderProps) {
+  const validUris = imageUris
+    .map(uri => uri?.trim())
+    .filter((uri): uri is string => !!uri);
   return (
     <View style={styles.header}>
       <View style={styles.row}>
-        {images.map((image, index) => (
+        {validUris.map((uri, index) => (
           <View style={styles.column} key={index}>
-            <Image source={{uri: image}} style={styles.image} />
+            <Image source={{uri: uri}} style={styles.image} />
           </View>
         ))}
       </View>

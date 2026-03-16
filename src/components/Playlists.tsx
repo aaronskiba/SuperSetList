@@ -20,7 +20,7 @@ export default function Playlists({
 
   return (
     <>
-      <Header title={'All Playlists'} images={[]} />
+      <Header title={'All Playlists'} imageUris={[]} />
       <Loader isLoading={isLoading} />
       <ErrorMessage error={error} />
       {playlists && (
