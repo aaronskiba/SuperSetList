@@ -7,11 +7,11 @@ export const getPlaylistTracks = async (
   accessToken: string,
   signal?: AbortSignal,
 ): Promise<SpotifyTrack[]> => {
-  const url = `${SPOTIFY_API_BASE_URL}/playlists/${playlist_id}/tracks`;
+  const url = `${SPOTIFY_API_BASE_URL}/playlists/${playlist_id}/items`;
   const data: SpotifyTrackResponse = await spotifyFetch(
     url,
     accessToken,
     signal,
   );
-  return data.items.map(item => item.track);
+  return data.items.map(i => i.item);
 };

@@ -7,7 +7,7 @@ export interface SpotifyPlaylistResponse {
 
 export interface SpotifyTrackResponse {
   items: {
-    track: SpotifyTrack;
+    item: SpotifyTrack;
   }[];
   total: number;
 }
