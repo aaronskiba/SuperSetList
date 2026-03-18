@@ -1,5 +1,10 @@
-import {CompareTracksHeaderProps} from '../../types/SpotifyPlaylistProps';
+import {SpotifyPlaylist} from '../../types/SpotifyPlaylist';
 import Header from './Header';
+import {getUriFromImages} from '../../utils/spotifyImages';
+
+type CompareTracksHeaderProps = {
+  spotifyPlaylists: SpotifyPlaylist[];
+};
 
 export default function CompareTracksHeader({
   spotifyPlaylists,
@@ -7,7 +12,7 @@ export default function CompareTracksHeader({
   return (
     <Header
       title={`${spotifyPlaylists[0].name} <--> ${spotifyPlaylists[1].name}`}
-      images={spotifyPlaylists.map(p => p.images[0].url)}
+      imageUris={spotifyPlaylists.map(p => getUriFromImages(p.images))}
     />
   );
 }

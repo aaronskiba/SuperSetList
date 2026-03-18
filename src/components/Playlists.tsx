@@ -1,44 +1,42 @@
-import {useEffect, useState} from 'react';
 import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
-import {SpotifyPlaylistsProps} from '../types/SpotifyPlaylistProps';
-import {getPlaylists} from '../services/playlistService';
+import {SpotifyPlaylistActions} from '../types/SpotifyPlaylistProps';
 import Playlist from './Playlist';
 import Header from './headers/Header';
-import {useAuth} from '../contexts/AuthContext';
 import {FlatList} from 'react-native';
+import ErrorMessage from './ErrorMessage';
+import {useFetchPlaylists} from '../hooks/useFetchSpotify';
+import Loader from './Loader';
+
+type SpotifyPlaylistsProps = SpotifyPlaylistActions & {
+  selectedPlaylists: SpotifyPlaylist[];
+};
 
 export default function Playlists({
   selectedPlaylists,
   updateSelectedPlaylists,
   focusPlaylist,
 }: SpotifyPlaylistsProps) {
-  const [playlists, setPlaylists] = useState<SpotifyPlaylist[] | null>(null);
-  const {auth} = useAuth();
-  const accessToken = auth?.accessToken;
-
-  useEffect(() => {
-    if (!accessToken) {
-      setPlaylists(null);
-      return;
-    }
-    getPlaylists(accessToken).then(setPlaylists).catch(console.error);
-  }, [accessToken]);
+  const {data: playlists, error, isLoading} = useFetchPlaylists();
 
   return (
     <>
-      <Header title={'All Playlists'} images={[]} />
-      <FlatList
-        data={playlists}
-        renderItem={({item}) => (
-          <Playlist
-            spotifyPlaylist={item}
-            isSelected={!!selectedPlaylists.some(p => p.id === item.id)}
-            updateSelectedPlaylists={updateSelectedPlaylists}
-            focusPlaylist={focusPlaylist}
-          />
-        )}
-        keyExtractor={item => item.id}
-      />
+      <Header title={'All Playlists'} imageUris={[]} />
+      <Loader isLoading={isLoading} />
+      <ErrorMessage error={error} />
+      {playlists && (
+        <FlatList
+          data={playlists}
+          renderItem={({item}) => (
+            <Playlist
+              spotifyPlaylist={item}
+              isSelected={!!selectedPlaylists.some(p => p.id === item.id)}
+              updateSelectedPlaylists={updateSelectedPlaylists}
+              focusPlaylist={focusPlaylist}
+            />
+          )}
+          keyExtractor={item => item.id}
+        />
+      )}
     </>
   );
 }

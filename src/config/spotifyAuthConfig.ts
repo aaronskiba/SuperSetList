@@ -1,6 +1,6 @@
 const spotifyAuthConfig = {
   issuer: 'https://accounts.spotify.com',
-  clientId: 'e653508634504dbe874915f12cfee829',
+  clientId: '611fa35d48e94daaa0d828a3c14a535f',
   redirectUrl: 'com.supersetlist://callback',
   scopes: ['user-read-email', 'playlist-read-private'],
   serviceConfiguration: {

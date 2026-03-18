@@ -11,7 +11,7 @@ import Header from './components/headers/Header';
 type Screen = 'playlists' | 'tracks' | 'compare';
 
 function App(): React.JSX.Element {
-  const isAuthenticated = useAuth();
+  const {isAuthenticated} = useAuth();
   const [selectedPlaylists, setSelectedPlaylists] = useState<SpotifyPlaylist[]>(
     [],
   );
@@ -60,7 +60,7 @@ function App(): React.JSX.Element {
 
   return (
     <>
-      <Header title={'SuperSetlist'} images={[]} />
+      <Header title={'SuperSetlist'} imageUris={[]} />
       {isAuthenticated && screen !== 'playlists' && (
         <BackToPlaylistsButton clearAllPlaylists={clearAllPlaylists} />
       )}

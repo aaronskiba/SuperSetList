@@ -7,8 +7,13 @@ import {
 
 export const getPlaylists = async (
   accessToken: string,
+  signal?: AbortSignal,
 ): Promise<SpotifyPlaylist[]> => {
   const url = `${SPOTIFY_API_BASE_URL}/me/playlists`;
-  const data: SpotifyPlaylistResponse = await spotifyFetch(url, accessToken);
+  const data: SpotifyPlaylistResponse = await spotifyFetch(
+    url,
+    accessToken,
+    signal,
+  );
   return data.items; // data.items == SpotifyPlaylist[]
 };

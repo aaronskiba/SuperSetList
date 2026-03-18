@@ -1,32 +1,24 @@
-import {useEffect, useState} from 'react';
-import {SpotifyPlaylist, SpotifyTrack} from '../types/SpotifyPlaylist';
-import {getPlaylistTracks} from '../services/trackService';
-import {useAuth} from '../contexts/AuthContext';
+import {SpotifyPlaylist} from '../types/SpotifyPlaylist';
 import Tracks from './Tracks';
 import {View, StyleSheet} from 'react-native';
 import PlaylistHeader from './headers/PlaylistHeader';
+import ErrorMessage from './ErrorMessage';
+import {useFetchTracks} from '../hooks/useFetchSpotify';
+import Loader from './Loader';
 
 type PlaylistTracksProps = {
   spotifyPlaylist: SpotifyPlaylist;
 };
 
 export default function PlaylistTracks({spotifyPlaylist}: PlaylistTracksProps) {
-  const [tracks, setTracks] = useState<SpotifyTrack[]>([]);
-  const {auth} = useAuth();
-  const accessToken = auth?.accessToken;
-
-  useEffect(() => {
-    if (!accessToken || !spotifyPlaylist) return;
-
-    getPlaylistTracks(spotifyPlaylist.id, accessToken)
-      .then(setTracks)
-      .catch(console.error);
-  }, [accessToken, spotifyPlaylist.id]);
+  const {data: tracks, error, isLoading} = useFetchTracks(spotifyPlaylist.id);
 
   return (
     <View style={styles.column}>
       <PlaylistHeader spotifyPlaylist={spotifyPlaylist} />
-      <Tracks spotifyTracks={tracks} />
+      <Loader isLoading={isLoading} />
+      <ErrorMessage error={error} />
+      {tracks && <Tracks spotifyTracks={tracks} />}
     </View>
   );
 }

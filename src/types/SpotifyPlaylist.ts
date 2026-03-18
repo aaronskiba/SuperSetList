@@ -7,10 +7,12 @@ export interface SpotifyPlaylistResponse {
 
 export interface SpotifyTrackResponse {
   items: {
-    track: SpotifyTrack;
+    item: SpotifyTrack;
   }[];
   total: number;
 }
+
+export type SpotifyImages = {url: string}[] | null;
 
 export interface SpotifyPlaylist {
   id: string;
@@ -23,9 +25,7 @@ export interface SpotifyPlaylist {
     href: string;
     total: number;
   };
-  images: {
-    url: string;
-  }[];
+  images: SpotifyImages;
 }
 
 export interface SpotifyTrack {

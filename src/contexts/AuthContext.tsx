@@ -1,12 +1,16 @@
-import {createContext, useContext, useState, ReactNode} from 'react';
-import {SpotifyAuth} from '../types/SpotifyAuth';
-import {handleSpotifyAuth} from '../services/authService';
+import {createContext, useContext, useState, useRef, ReactNode} from 'react';
+import {SpotifyAuth, SpotifyRefreshResponse} from '../types/SpotifyAuth';
+import {handleSpotifyAuth, getRefreshToken} from '../services/authService';
+import {
+  isValidToken,
+  getUpdatedAuthFromRefreshResponse,
+} from '../utils/authToken';
 
 interface AuthContextType {
-  auth: SpotifyAuth | null;
-  login: () => void | Promise<void>;
-  logout: () => void;
   isAuthenticated: boolean;
+  getValidAccessToken: () => Promise<string | null>;
+  login: () => Promise<void>;
+  logout: () => void;
 }
 
 interface AuthProviderProps {
@@ -17,6 +21,38 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({children}: AuthProviderProps) => {
   const [auth, setAuth] = useState<SpotifyAuth | null>(null);
+  const refreshTokenPromiseRef = useRef<Promise<string | null> | null>(null);
+
+  const handleTokenRefresh = async (authSnapshot: SpotifyAuth) => {
+    try {
+      const response: SpotifyRefreshResponse = await getRefreshToken(
+        authSnapshot,
+      );
+      const updatedAuth = getUpdatedAuthFromRefreshResponse(
+        authSnapshot,
+        response,
+      );
+      setAuth(updatedAuth);
+      return updatedAuth.accessToken;
+    } catch (err) {
+      setAuth(null);
+      throw err;
+    } finally {
+      refreshTokenPromiseRef.current = null;
+    }
+  };
+
+  const getValidAccessToken = async () => {
+    if (!auth) return null;
+    if (isValidToken(auth)) return auth.accessToken;
+    // If a refresh is already in progress, return the same promise
+    // (Prevents concurrent requests from triggering multiple getRefreshToken() calls)
+    if (refreshTokenPromiseRef.current) return refreshTokenPromiseRef.current;
+    // Initiate a refresh and store the promise for other callers to await
+    // (After it's completion, handleTokenRefresh clears the ref)
+    refreshTokenPromiseRef.current = handleTokenRefresh(auth);
+    return refreshTokenPromiseRef.current;
+  };
 
   const login = async () => {
     try {
@@ -24,18 +60,18 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
       setAuth(authData);
     } catch (err) {
       console.error('Spotify login failed: ', err);
+      setAuth(null);
     }
   };
 
   const logout = () => setAuth(null);
 
-  // TODO: isAuthenticated currently only checks for accessToken presence.
-  // Token expiry is not validated, so expired tokens may be treated as authenticated
-  // until this is addressed.
-  const isAuthenticated = !!auth?.accessToken;
+  // "authenticated" is having (or being able to obtain) a valid access token
+  const isAuthenticated = !!auth?.accessToken || !!auth?.refreshToken;
 
   return (
-    <AuthContext.Provider value={{auth, login, logout, isAuthenticated}}>
+    <AuthContext.Provider
+      value={{isAuthenticated, getValidAccessToken, login, logout}}>
       {children}
     </AuthContext.Provider>
   );
